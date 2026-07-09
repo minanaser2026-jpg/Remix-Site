@@ -5,27 +5,26 @@ import { defineConfig } from 'vite';
 
 import runtimeErrorOverlay from '@replit/vite-plugin-runtime-error-modal';
 
+// PORT/BASE_PATH are only required to run the Vite dev/preview server (they
+// are injected by the Replit workflow). A production build (e.g. on
+// Netlify) doesn't start a server, so fall back to sane defaults instead of
+// failing the build when they're unset.
 const rawPort = process.env.PORT;
+const isServeCommand = process.env.npm_lifecycle_event !== 'build';
 
-if (!rawPort) {
+if (isServeCommand && !rawPort) {
   throw new Error(
     'PORT environment variable is required but was not provided.',
   );
 }
 
-const port = Number(rawPort);
+const port = Number(rawPort || 5173);
 
 if (Number.isNaN(port) || port <= 0) {
   throw new Error(`Invalid PORT value: "${rawPort}"`);
 }
 
-const basePath = process.env.BASE_PATH;
-
-if (!basePath) {
-  throw new Error(
-    'BASE_PATH environment variable is required but was not provided.',
-  );
-}
+const basePath = process.env.BASE_PATH || '/';
 
 export default defineConfig({
   base: basePath,
