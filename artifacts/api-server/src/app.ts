@@ -84,7 +84,11 @@ app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.use("/api", router);
 
 // ── Static frontend (Railway production) ─────────────────────────────────────
-if (process.env.NODE_ENV === "production") {
+// Skipped on Netlify: the frontend is built and served separately from
+// artifacts/remix-site/dist/public via the Netlify CDN, and this app only
+// ever runs there inside a Lambda-based Netlify Function.
+const isServerlessFunction = Boolean(process.env.AWS_LAMBDA_FUNCTION_NAME);
+if (process.env.NODE_ENV === "production" && !isServerlessFunction) {
   // Default: repo root → artifacts/remix-site/dist/public
   const frontendDir =
     process.env.FRONTEND_DIR ||
