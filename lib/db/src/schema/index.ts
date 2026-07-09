@@ -1,4 +1,4 @@
-import { pgTable, serial, text, boolean, integer, timestamp } from 'drizzle-orm/pg-core';
+import { pgTable, serial, text, boolean, integer, timestamp, varchar, json, index } from 'drizzle-orm/pg-core';
 
 // Admin users
 export const adminUsersTable = pgTable('admin_users', {
@@ -43,6 +43,18 @@ export const reelsTable = pgTable('reels', {
   orderIndex: integer('order_index').notNull().default(0),
   syncedAt: timestamp('synced_at').defaultNow().notNull(),
 });
+
+// express-session store (connect-pg-simple). createTableIfMissing is kept
+// false in the app (see api-server), because that auto-create path reads a
+// table.sql asset file that esbuild's bundler doesn't copy — so this table
+// must exist ahead of time via drizzle push / migrations instead.
+export const sessionTable = pgTable('session', {
+  sid: varchar('sid').primaryKey(),
+  sess: json('sess').notNull(),
+  expire: timestamp('expire', { precision: 6 }).notNull(),
+}, (table) => ({
+  expireIdx: index('IDX_session_expire').on(table.expire),
+}));
 
 export type AdminUser = typeof adminUsersTable.$inferSelect;
 export type SiteContent = typeof siteContentTable.$inferSelect;
