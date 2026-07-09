@@ -1,9 +1,9 @@
-[[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/api/:splat"
-  status = 200
+[build]
+  command = "pnpm run build"
+  publish = "dist"
 
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+[functions]
+  node_bundler = "esbuild"
+
+[context.production.environment]
+  DATABASE_URL = "postgresql://postgres:JTEXUJtjen1HnTkN@db.dnlkdtktlqendhaqcnua.supabase.co:5432/postgres"
