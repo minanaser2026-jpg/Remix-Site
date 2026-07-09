@@ -1,7 +1,17 @@
+[build]
+  command = "pnpm --filter @workspace/remix-site... --if-present run build"
+  publish = "artifacts/remix-site/dist/public"
+
+[functions]
+  directory = "netlify/functions"
+  external_node_modules = ["express"]
+  node_bundler = "esbuild"
+
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/api/:splat"
   status = 200
+  force = true
 
 [[redirects]]
   from = "/*"
