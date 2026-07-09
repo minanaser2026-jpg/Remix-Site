@@ -1,0 +1,1 @@
+- [connect-pg-simple table.sql missing after esbuild bundle](connect-pg-simple-esbuild.md) — createTableIfMissing fails silently in bundled api-server builds.

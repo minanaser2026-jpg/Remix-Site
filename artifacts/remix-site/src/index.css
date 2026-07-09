@@ -1,0 +1,312 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap');
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-card-border: hsl(var(--card-border));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-popover-border: hsl(var(--popover-border));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-primary-border: var(--primary-border);
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-secondary-border: var(--secondary-border);
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-muted-border: var(--muted-border);
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-accent-border: var(--accent-border);
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-destructive-border: var(--destructive-border);
+
+  --font-sans: var(--app-font-sans);
+  --font-serif: var(--app-font-serif);
+  --font-mono: var(--app-font-mono);
+  --font-heading: 'Bebas Neue', sans-serif;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --background: 0 0% 3%; /* #080808 */
+  --foreground: 0 0% 100%; /* #FFFFFF */
+  
+  --border: 0 0% 15%;
+  --input: 0 0% 15%;
+  --ring: 0 100% 40%;
+  
+  --card: 0 0% 10%; /* #1a1a1a */
+  --card-foreground: 0 0% 100%;
+  --card-border: 0 0% 15%;
+  
+  --popover: 0 0% 3%;
+  --popover-foreground: 0 0% 100%;
+  --popover-border: 0 0% 15%;
+  
+  --primary: 0 100% 40%; /* #cc0000 */
+  --primary-foreground: 0 0% 100%;
+  
+  --secondary: 0 0% 10%;
+  --secondary-foreground: 0 0% 100%;
+  
+  --muted: 0 0% 10%;
+  --muted-foreground: 0 0% 60%;
+  
+  --accent: 0 100% 40%;
+  --accent-foreground: 0 0% 100%;
+  
+  --destructive: 0 100% 40%;
+  --destructive-foreground: 0 0% 100%;
+
+  --app-font-sans: 'Inter', sans-serif;
+  --app-font-serif: Georgia, serif;
+  --app-font-mono: Menlo, monospace;
+  --radius: 0.5rem;
+
+  --primary-border: hsl(from hsl(var(--primary)) h s calc(l - 8) / alpha);
+  --secondary-border: hsl(from hsl(var(--secondary)) h s calc(l - 8) / alpha);
+  --muted-border: hsl(from hsl(var(--muted)) h s calc(l - 8) / alpha);
+  --accent-border: hsl(from hsl(var(--accent)) h s calc(l - 8) / alpha);
+  --destructive-border: hsl(from hsl(var(--destructive)) h s calc(l - 8) / alpha);
+}
+
+.dark {
+  --background: 0 0% 3%;
+  --foreground: 0 0% 100%;
+  --border: 0 0% 15%;
+  --input: 0 0% 15%;
+  --ring: 0 100% 40%;
+  --card: 0 0% 10%;
+  --card-foreground: 0 0% 100%;
+  --card-border: 0 0% 15%;
+  --popover: 0 0% 3%;
+  --popover-foreground: 0 0% 100%;
+  --popover-border: 0 0% 15%;
+  --primary: 0 100% 40%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 0 0% 10%;
+  --secondary-foreground: 0 0% 100%;
+  --muted: 0 0% 10%;
+  --muted-foreground: 0 0% 60%;
+  --accent: 0 100% 40%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 100% 40%;
+  --destructive-foreground: 0 0% 100%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply font-sans antialiased bg-background text-foreground overflow-x-hidden;
+    background-color: #080808;
+    color: #ffffff;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+}
+
+@layer utilities {
+  .glass-card {
+    background: rgba(26, 26, 26, 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  
+  .hover-glow {
+    transition: all 0.3s ease;
+  }
+  
+  .hover-glow:hover {
+    box-shadow: 0 0 30px rgba(204, 0, 0, 0.3);
+    border-color: rgba(204, 0, 0, 0.5);
+    transform: translateY(-2px);
+  }
+  
+  .text-glow {
+    text-shadow: 0 0 20px rgba(204, 0, 0, 0.6);
+  }
+
+  .bg-noise {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 50;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  }
+
+  .reveal-initial {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .reveal-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .play-ripple {
+    position: relative;
+  }
+  
+  .play-ripple::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    background-color: rgba(204, 0, 0, 0.4);
+    border-radius: 50%;
+    z-index: -1;
+    animation: ripple 2s infinite cubic-bezier(0.65, 0, 0.34, 1);
+  }
+}
+
+/* Vinyl spinning disc animation */
+@keyframes vinyl-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.vinyl-disc {
+  animation: vinyl-spin 8s linear infinite;
+  will-change: transform;
+}
+
+.vinyl-disc:hover {
+  animation-play-state: paused;
+}
+
+@keyframes ripple {
+  0% {
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+  }
+  100% {
+    width: 200%;
+    height: 200%;
+    opacity: 0;
+  }
+}
+
+@keyframes waveform {
+  0% { transform: scaleY(0.1); }
+  50% { transform: scaleY(1); }
+  100% { transform: scaleY(0.1); }
+}
+
+.bar {
+  animation: waveform 1.2s infinite ease-in-out;
+  transform-origin: bottom;
+}
+.bar:nth-child(1) { animation-delay: 0.1s; }
+.bar:nth-child(2) { animation-delay: 0.3s; }
+.bar:nth-child(3) { animation-delay: 0.0s; }
+.bar:nth-child(4) { animation-delay: 0.4s; }
+.bar:nth-child(5) { animation-delay: 0.2s; }
+
+/* ─── Mobile side menu: circular reveal + staggered items ─── */
+
+.mobile-menu-panel {
+  clip-path: circle(0% at calc(100% - 2.5rem) 2.5rem);
+  transition: clip-path 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mobile-menu-panel.mobile-menu-open {
+  clip-path: circle(150% at calc(100% - 2.5rem) 2.5rem);
+}
+
+.mobile-menu-item {
+  opacity: 0;
+  transform: translateY(24px) scale(0.94);
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mobile-menu-open .mobile-menu-item {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* ─── Hero animated logo ─── */
+
+@keyframes logo-float {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50%       { transform: translateY(-10px) scale(1.01); }
+}
+
+@keyframes logo-glow-pulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 18px rgba(204, 0, 0, 0.45))
+            drop-shadow(0 0 40px rgba(204, 0, 0, 0.18))
+            drop-shadow(0 0 80px rgba(204, 0, 0, 0.08));
+  }
+  50% {
+    filter: drop-shadow(0 0 35px rgba(204, 0, 0, 0.75))
+            drop-shadow(0 0 70px rgba(204, 0, 0, 0.35))
+            drop-shadow(0 0 120px rgba(204, 0, 0, 0.18));
+  }
+}
+
+@keyframes logo-fade-in {
+  from { opacity: 0; transform: translateY(20px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0px) scale(1); }
+}
+
+.hero-logo-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: logo-fade-in 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero-logo-img {
+  max-width: min(680px, 82vw);
+  width: 100%;
+  height: auto;
+  animation: logo-float 5s ease-in-out infinite,
+             logo-glow-pulse 3s ease-in-out infinite;
+  will-change: transform, filter;
+  user-select: none;
+  pointer-events: none;
+}

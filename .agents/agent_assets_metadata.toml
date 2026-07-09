@@ -1,0 +1,8 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "3Eq7uro1fp4NafFZuWZ-F"
+uri = "file://downloads/remix-site-project.zip"
+type = "unspecified"
+title = "Remix Site — Project (with Admin Panel)"
