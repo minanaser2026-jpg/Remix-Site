@@ -14,6 +14,10 @@ const PgSession = connectPgSimple(session);
 
 const app: Express = express();
 
+// Trust Railway's reverse proxy so that req.protocol returns "https"
+// and session cookies with secure:true are correctly set.
+app.set("trust proxy", 1);
+
 // ── Session store (PostgreSQL-backed, works on Railway) ───────────────────────
 app.use(
   session({
