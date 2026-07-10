@@ -10,12 +10,17 @@ if (!process.env.DATABASE_URL) {
   );
 }
 
+// Enable SSL for any remote host (Supabase, Railway PG, Neon, etc.)
+// Skip SSL only for local / loopback connections used in dev.
+const dbUrl = process.env.DATABASE_URL ?? "";
+const isLocalDb =
+  dbUrl.includes("localhost") ||
+  dbUrl.includes("127.0.0.1") ||
+  dbUrl.includes("::1");
+
 export const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  // Railway (and most managed PG hosts) require SSL in production
-  ssl: process.env.NODE_ENV === "production"
-    ? { rejectUnauthorized: false }
-    : undefined,
+  connectionString: dbUrl,
+  ssl: isLocalDb ? undefined : { rejectUnauthorized: false },
 });
 export const db = drizzle(pool, { schema });
 
