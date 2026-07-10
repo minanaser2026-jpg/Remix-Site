@@ -97,7 +97,7 @@ if (process.env.NODE_ENV === "production" && !isServerlessFunction) {
   app.use(express.static(frontendDir));
 
   // SPA fallback
-  app.get("*", (_req, res) => {
+  app.get("/{*path}", (_req, res) => {
     res.sendFile(path.join(frontendDir, "index.html"));
   });
 }
