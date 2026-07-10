@@ -31,10 +31,14 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
+      // secure requires HTTPS — Railway always terminates TLS so this is fine
       secure: process.env.NODE_ENV === "production",
       httpOnly: true,
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-      sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
+      // "lax" works for same-site (Railway single domain) and is more
+      // compatible than "strict" while still blocking CSRF from external sites.
+      // Use "none" only if you ever need cross-origin cookie sharing.
+      sameSite: "lax",
     },
   })
 );
@@ -55,12 +59,10 @@ app.use(
 );
 
 // ── CORS ──────────────────────────────────────────────────────────────────────
-// The frontend is served from the same origin as this API (single
-// path-based-routing domain in dev, same production domain), so we only
-// need to allow same-origin requests plus anything explicitly allow-listed
-// via ALLOWED_ORIGINS (comma-separated). Reflecting arbitrary origins with
-// credentials:true would let any third-party site ride the admin session
-// cookie, so we never do that.
+// On Railway the frontend is served by this same Express process, so all
+// browser requests are same-origin and need no CORS headers.
+// ALLOWED_ORIGINS lets you add external origins (e.g. a custom domain or a
+// Cloudflare Pages preview) without touching the code.
 const allowedOrigins = (process.env.ALLOWED_ORIGINS || "")
   .split(",")
   .map((o) => o.trim())
@@ -69,11 +71,9 @@ const allowedOrigins = (process.env.ALLOWED_ORIGINS || "")
 app.use((req, res, next) => {
   const origin = req.headers.origin;
   const selfOrigin = `${req.protocol}://${req.get("host")}`;
-  // Always allow: same origin, Cloudflare Pages, explicit allow-list
   const allowed =
     !origin ||
     origin === selfOrigin ||
-    origin.endsWith(".pages.dev") ||
     origin.endsWith(".railway.app") ||
     allowedOrigins.includes(origin);
   cors({

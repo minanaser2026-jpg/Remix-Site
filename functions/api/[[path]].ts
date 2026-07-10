@@ -8,7 +8,7 @@
 // attribute, so when this proxy relays the Netlify response's `Set-Cookie`
 // header back to the browser, the browser correctly scopes it to whichever
 // origin it actually talked to (the Pages domain) — auth/login keeps working.
-const ORIGIN = "https://fancy-wisp-81c30d.netlify.app";
+const ORIGIN = "https://workspaceapi-server-production-eac4.up.railway.app";
 
 export const onRequest: PagesFunction = async ({ request }) => {
   const url = new URL(request.url);
