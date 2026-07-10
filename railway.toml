@@ -11,24 +11,12 @@ restartPolicyMaxRetries = 3
 healthcheckPath = "/api/healthz"
 healthcheckTimeout = 30
 
-# ── المتغيرات المطلوبة ──────────────────────────────────────────────────────
-# Railway بيقرأ القسم ده ويعرضهم تلقائياً في الـ Variables tab
-# الـ required بدون قيمة - لازم تحطها إنت
-# الـ optional عندها قيمة افتراضية
-
 [variables]
-# مطلوب: بيئة التشغيل
 NODE_ENV = "production"
-
-# مطلوب: سر التشفير للـ sessions - غيّره لأي string عشوائي طويل
-SESSION_SECRET = ""
-
-# مطلوب: رابط Supabase - من Supabase → Settings → Database → URI
-DATABASE_URL = ""
-
-# اختياري: دومين مخصص غير railway.app
+SESSION_SECRET = "change-this-to-a-random-secret-string-32chars"
+DATABASE_URL = "postgresql://postgres:password@db.your-project.supabase.co:5432/postgres"
 ALLOWED_ORIGINS = ""
-
-# اختياري: Facebook Reels integration
 FACEBOOK_PAGE_ACCESS_TOKEN = ""
 FACEBOOK_PAGE_ID = ""
+LOG_LEVEL = "info"
+LOG_PRETTY = "false"
