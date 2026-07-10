@@ -44,7 +44,10 @@ router.get("/reels", async (_req, res) => {
         id: String(r.id),
         title: r.title,
         thumbnailUrl: r.thumbnailUrl,
-        permalinkUrl: r.permalinkUrl,
+        // Ensure permalink is always an absolute URL
+        permalinkUrl: r.permalinkUrl?.startsWith("http")
+          ? r.permalinkUrl
+          : `https://www.facebook.com${r.permalinkUrl}`,
         duration: r.duration,
         createdTime: r.fbCreatedTime ?? "",
       }))
