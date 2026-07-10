@@ -47,7 +47,8 @@ router.post("/admin/setup", async (req: Request, res: Response) => {
     req.session.username = user.username;
     res.json({ ok: true, username: user.username });
   } catch (err) {
-    res.status(500).json({ error: "Server error" });
+    console.error("[admin/setup] error:", err);
+    res.status(500).json({ error: "Server error", detail: String(err) });
   }
 });
 
@@ -66,8 +67,9 @@ router.post("/admin/login", async (req: Request, res: Response) => {
     req.session.userId = user.id;
     req.session.username = user.username;
     res.json({ ok: true, username: user.username });
-  } catch {
-    res.status(500).json({ error: "Server error" });
+  } catch (err) {
+    console.error("[admin/login] error:", err);
+    res.status(500).json({ error: "Server error", detail: String(err) });
   }
 });
 

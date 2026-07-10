@@ -69,9 +69,15 @@ const allowedOrigins = (process.env.ALLOWED_ORIGINS || "")
 app.use((req, res, next) => {
   const origin = req.headers.origin;
   const selfOrigin = `${req.protocol}://${req.get("host")}`;
-  const allowed = !origin || origin === selfOrigin || allowedOrigins.includes(origin);
+  // Always allow: same origin, Cloudflare Pages, explicit allow-list
+  const allowed =
+    !origin ||
+    origin === selfOrigin ||
+    origin.endsWith(".pages.dev") ||
+    origin.endsWith(".railway.app") ||
+    allowedOrigins.includes(origin);
   cors({
-    origin: allowed,
+    origin: allowed ? origin : false,
     credentials: true,
   })(req, res, next);
 });
