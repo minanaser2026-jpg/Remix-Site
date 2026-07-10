@@ -78,7 +78,7 @@ export default function Reels() {
               href={reel.permalinkUrl}
               target="_blank"
               rel="noreferrer"
-              className={`group relative aspect-[9/16] rounded-2xl overflow-hidden glass-card hover-glow reveal-initial block ${isIntersecting ? 'reveal-visible' : ''}`}
+              className="group relative aspect-[9/16] rounded-2xl overflow-hidden glass-card hover-glow block"
               style={{ transitionDelay: `${index * 100}ms` }}
             >
               {reel.thumbnailUrl ? (
