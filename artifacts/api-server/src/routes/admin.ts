@@ -169,19 +169,45 @@ router.post("/admin/reels/sync", requireAuth, async (_req: Request, res: Respons
     res.status(400).json({ error: "FACEBOOK_PAGE_ACCESS_TOKEN not configured in environment" });
     return;
   }
-  try {
-    const url = `https://graph.facebook.com/v18.0/${pageId}/videos?type=uploaded&fields=id,title,description,thumbnails,permalink_url,length,created_time&limit=50&access_token=${token}`;
-    const fbRes = await fetch(url);
-    const fbData = await fbRes.json() as { data?: unknown[]; error?: { message: string } };
-    if (!fbRes.ok || fbData.error) {
-      res.status(400).json({ error: fbData.error?.message || "Facebook API error" });
-      return;
+
+  type FbVideo = {
+    id: string; title?: string; description?: string;
+    thumbnails?: { data: Array<{ uri: string }> };
+    permalink_url: string; length?: number; created_time?: string;
+  };
+
+  // Fetch all pages from a Facebook Graph API endpoint
+  async function fetchAllPages(initialUrl: string): Promise<FbVideo[]> {
+    const results: FbVideo[] = [];
+    let nextUrl: string | null = initialUrl;
+    while (nextUrl) {
+      const res = await fetch(nextUrl);
+      const data = await res.json() as { data?: FbVideo[]; paging?: { next?: string }; error?: { message: string } };
+      if (data.error) throw new Error(data.error.message);
+      if (data.data) results.push(...data.data);
+      nextUrl = data.paging?.next ?? null;
     }
-    const videos = (fbData.data || []) as Array<{
-      id: string; title?: string; description?: string;
-      thumbnails?: { data: Array<{ uri: string }> };
-      permalink_url: string; length?: number; created_time?: string;
-    }>;
+    return results;
+  }
+
+  try {
+    const fields = "id,title,description,thumbnails,permalink_url,length,created_time";
+    let videos: FbVideo[] = [];
+
+    // Try reels endpoint first (newer API)
+    const reelsUrl = `https://graph.facebook.com/v19.0/${pageId}/reels?fields=${fields}&limit=100&access_token=${token}`;
+    const reelsRes = await fetch(reelsUrl);
+    const reelsData = await reelsRes.json() as { data?: FbVideo[]; paging?: { next?: string }; error?: { message: string } };
+
+    if (reelsData.data && reelsData.data.length > 0) {
+      // Reels endpoint returned results — fetch all pages
+      videos = await fetchAllPages(reelsUrl);
+    } else {
+      // Fallback: fetch all uploaded videos (Reels show up here too)
+      const videosUrl = `https://graph.facebook.com/v19.0/${pageId}/videos?type=uploaded&fields=${fields}&limit=100&access_token=${token}`;
+      videos = await fetchAllPages(videosUrl);
+    }
+
     let synced = 0;
     for (const v of videos) {
       const thumbnail = v.thumbnails?.data?.[0]?.uri ?? null;
@@ -210,7 +236,7 @@ router.post("/admin/reels/sync", requireAuth, async (_req: Request, res: Respons
     const total = await db.select().from(reelsTable);
     res.json({ ok: true, synced, total: total.length });
   } catch (err) {
-    res.status(500).json({ error: "Sync failed. Check token and page ID." });
+    res.status(500).json({ error: String(err) });
   }
 });
 
