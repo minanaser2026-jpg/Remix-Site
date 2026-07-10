@@ -30,7 +30,16 @@ export const onRequest: PagesFunction = async ({ request }) => {
 
   const upstream = await fetch(targetUrl, init);
 
+  // `fetch()` transparently decompresses the upstream response body, but the
+  // original `Content-Encoding`/`Content-Length` headers still describe the
+  // *compressed* payload. Forwarding them as-is makes the browser think it
+  // received a corrupt/mismatched body and it aborts the request as a
+  // generic network error — strip them so the runtime recomputes correct
+  // framing for the (already decoded) body we're relaying.
   const responseHeaders = new Headers(upstream.headers);
+  responseHeaders.delete("content-encoding");
+  responseHeaders.delete("content-length");
+
   return new Response(upstream.body, {
     status: upstream.status,
     statusText: upstream.statusText,
