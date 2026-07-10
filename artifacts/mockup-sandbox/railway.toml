@@ -1,0 +1,3 @@
+[deploy]
+# This package is a local development sandbox — do not deploy it.
+startCommand = "echo 'mockup-sandbox is not a deployable service' && exit 0"
