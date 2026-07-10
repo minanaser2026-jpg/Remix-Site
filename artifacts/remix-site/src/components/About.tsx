@@ -42,11 +42,11 @@ export default function About() {
 
             <div className="mt-12 flex gap-6">
               <div className="text-center px-8 py-5 glass-card rounded-xl border-t-white/10 border-l-white/10 shadow-xl">
-                <span className="block text-4xl md:text-5xl font-heading text-primary mb-1">10+</span>
+                <span className="block text-4xl md:text-5xl font-heading text-primary mb-1">9+</span>
                 <span className="text-xs tracking-[0.2em] text-white/40 uppercase font-bold">{t('about_years')}</span>
               </div>
               <div className="text-center px-8 py-5 glass-card rounded-xl border-t-white/10 border-l-white/10 shadow-xl">
-                <span className="block text-4xl md:text-5xl font-heading text-primary mb-1">100K+</span>
+                <span className="block text-4xl md:text-5xl font-heading text-primary mb-1">26M+</span>
                 <span className="text-xs tracking-[0.2em] text-white/40 uppercase font-bold">{t('about_fans')}</span>
               </div>
             </div>
