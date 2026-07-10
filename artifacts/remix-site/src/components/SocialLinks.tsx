@@ -30,7 +30,7 @@ interface SocialLink {
   url: string;
 }
 
-const API_BASE = import.meta.env.BASE_URL.replace(/\/$/, '');
+import { API_BASE } from '@/lib/api';
 
 export default function SocialLinks() {
   const { ref, isIntersecting } = useIntersectionObserver();

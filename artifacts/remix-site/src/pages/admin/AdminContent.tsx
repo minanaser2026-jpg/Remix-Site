@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import AdminLayout from './AdminLayout';
 import { Save, Plus, Trash2 } from 'lucide-react';
 
-const API_BASE = import.meta.env.BASE_URL.replace(/\/$/, '');
+import { API_BASE } from '@/lib/api';
 
 interface ContentItem {
   id: number;

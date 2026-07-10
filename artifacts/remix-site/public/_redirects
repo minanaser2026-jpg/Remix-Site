@@ -1,5 +1,2 @@
-# Proxy API calls to Railway backend (transparent — no redirect visible to browser)
-/api/*  https://workspaceapi-server-production-eac4.up.railway.app/api/:splat  200
-
-# SPA fallback — all other routes serve index.html
+# SPA fallback — all routes serve index.html
 /*  /index.html  200

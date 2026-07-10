@@ -2,7 +2,7 @@ import { useState } from 'react';
 import AdminLayout from './AdminLayout';
 import { KeyRound, Check, AlertCircle } from 'lucide-react';
 
-const API_BASE = import.meta.env.BASE_URL.replace(/\/$/, '');
+import { API_BASE } from '@/lib/api';
 
 export default function AdminPassword() {
   const [current, setCurrent] = useState('');

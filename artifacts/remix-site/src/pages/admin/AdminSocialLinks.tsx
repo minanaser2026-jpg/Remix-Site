@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import AdminLayout from './AdminLayout';
 import { Plus, Trash2, Save, Eye, EyeOff, GripVertical } from 'lucide-react';
 
-const API_BASE = import.meta.env.BASE_URL.replace(/\/$/, '');
+import { API_BASE } from '@/lib/api';
 
 interface SocialLink {
   id: number;

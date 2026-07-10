@@ -24,7 +24,7 @@ const PLACEHOLDER_REELS: Reel[] = [
   { id: '6', title: 'CROWD GOES WILD',      thumbnailUrl: null, permalinkUrl: FB_PAGE_URL, duration: 50, createdTime: '' },
 ];
 
-const API_BASE = import.meta.env.BASE_URL.replace(/\/$/, '');
+import { API_BASE } from '@/lib/api';
 
 function formatDuration(seconds: number | null): string {
   if (!seconds) return '';

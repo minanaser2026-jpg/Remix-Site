@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import AdminLayout from './AdminLayout';
 import { FileText, Share2, Film, RefreshCw } from 'lucide-react';
 
-const API_BASE = import.meta.env.BASE_URL.replace(/\/$/, '');
+import { API_BASE } from '@/lib/api';
 
 interface Stats {
   content: number;
