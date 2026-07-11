@@ -17,6 +17,8 @@ const CONTENT_KEYS = [
   { key: 'about_bio', label: 'About Bio', placeholder: 'Your bio text here...', multiline: true },
   { key: 'about_name', label: 'About Name', placeholder: 'REMIX', multiline: false },
   { key: 'about_title', label: 'About Title / Role', placeholder: 'Music Producer & DJ', multiline: false },
+  { key: 'about_years', label: 'Years of Experience', placeholder: '9+', multiline: false },
+  { key: 'about_fans', label: 'Fans Count', placeholder: '26K+', multiline: false },
   { key: 'footer_text', label: 'Footer Text', placeholder: 'Music Is My Life', multiline: false },
 ];
 
